@@ -4,12 +4,13 @@ function showPlots(id){
         // console.log(samples)
         var sample_values = samples.sample_values.slice(0, 10)
             .reverse();
-        var wash = data.metadata.map(wash => wash.wfreq)
-        // console.log(wash)
+                
+        var bBwash = data.metadata.map( d=> d.wfreq)[6];
+        console.log(bBwash)
                   
         var Top10otu = (samples.otu_ids.slice(0, 10)).reverse();
         // console.log(Top10otu)
-        var otu_labels = samples.otu_labels.slice(0,10);
+        var otu_labels = samples.otu_labels.slice(0, 10);
         // console.log(otu_labels)
         var otu_ids = newFunction(Top10otu)
        
@@ -33,7 +34,6 @@ function showPlots(id){
             yaxis:{tickmode: "linear"},
             margin:{ l:100, r:100, t:100, b:50 }
         };
-
         // show bar plot
         Plotly.newPlot("bar", data, layout);
 
@@ -53,49 +53,50 @@ function showPlots(id){
         var layout2 = {
             xaxis:{
                 title:"Samples"},
-            height: 480,
-            width: 640
+            height: 640,
+            width: 1000
         };
         
-        Plotly.newPlot('bubble', data2, layout2);
+        Plotly.newPlot("bubble", data2, layout2);
 
         //display each key-value pair from the metadata JSON object on the page.
         var data3 = [
             {
-                domain: {x:[0,1], y: [0,1]},
                 title:{ text: "Belly Button Washing Frequency"},
-                value: parseFloat(wash),
-                type: "indicator",            
-                mode: "guage+number+delta",
+                type: "indicator",
+                value: parseFloat(bBwash),
+                domain: {x: [ 0, 1 ] , y: [ 0, 1 ]},                         
+                mode: "gauge+number+delta",
                 delta: {reference: 9},  
-                    gauge: {
-                        axis: {range: [null, 9]},
-                        bgcolor: "white",
-                        bordercolor: "gray",
-                    steps: [
-                        {range:[0,1], color: "red"},
-                        {range:[2,3], color:"orange"},
-                        {range:[3,5], color: "yellow"},
-                        {range:[5,7], color: "lime green"},
-                        {range:[7,9], color: "green"},
-                    ],
-                    threshold: {
-                        line:{color: "red", width: 4},
-                        thickness: 0.75,
-                        value: 9
-                    }
+                gauge: { 
+                axis: {range: [null, 9]},
+                    // bgcolor: "white",
+                    // bordercolor: "gray",
+                steps: [
+                    {range:[0,2], color: "red"},
+                    {range:[2,4], color:"orange"},
+                    {range:[4,6], color: "yellow"},
+                    {range:[5,7], color: "limegreen"},
+                    {range:[7,9], color: "green"},
+                ],
+                threshold: {
+                    line:{color: "red", width: 4},
+                    thickness: 0.75,
+                    value: 9
                 }
+                
             }
           
-        ];
+        }];
 
-        // var trace3 =[data3]
-        var layout3 = {
+  
+        var layout3 = { 
+            mode: "guage+number+delta",
             width: 700, 
             height: 600,
-            margin: { l:75, r:250,t:50, b:50}
+            margin: { l:0, r:200,t:50, b:50}
           };
-        Plotly.newPlot('gauge', data3, layout3);
+        Plotly.newPlot("gauge", data3, layout3);
       });
 
     function newFunction(Top10otu){
@@ -143,4 +144,5 @@ function init(){
         infoCard(data.names [0]);
     });
 }
+
 init();
