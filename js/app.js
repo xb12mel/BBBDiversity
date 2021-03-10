@@ -5,7 +5,7 @@ function showPlots(id){
         var sample_values = samples.sample_values.slice(0, 10)
             .reverse();
                 
-        var bBwash = data.metadata.map( d=> d.wfreq)[6];
+        var bBwash = data.metadata.map( d=> d.wfreq);
         console.log(bBwash)
                   
         var Top10otu = (samples.otu_ids.slice(0, 10)).reverse();
